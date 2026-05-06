@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(set PYTHONPATH=%CD%\\\\src)",
+      "Bash(python scripts/demo.py)",
+      "Bash(python -c \"import sys; sys.path.insert\\(0, 'C:/Users/35987/Desktop/负熵参赛包/v2.0/src'\\); from scripts.demo import main; import asyncio; asyncio.run\\(main\\(\\)\\)\")",
+      "Bash(python -m pip list)",
+      "Bash(mkdir -p \"C:/Users/35987/.claude/plans\")",
+      "Read(//c/Users/35987/.claude/plans/**)"
+    ]
+  }
+}
