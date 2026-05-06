@@ -11,36 +11,45 @@
 
 ```
 .
-├── V0.1/                    # 早期 MVP 版本
-│   ├── src/                 # 核心模块（bridge, validator, flow_manager）
-│   ├── scripts/             # 演示脚本
-│   ├── tests/               # 单元测试
-│   ├── docs/                # 设计文档
-│   ├── config/              # 配置模板
-│   └── schemas/             # JSON Schema
+├── V0.1/                          # 早期 MVP 版本源码
+│   ├── src/                       # 核心模块（bridge, validator, flow_manager）
+│   ├── scripts/                   # 演示脚本
+│   ├── tests/                     # 单元测试
+│   ├── docs/                      # 设计文档
+│   ├── config/                    # 配置模板
+│   └── schemas/                   # JSON Schema
 │
-├── v2.0/                    # 核心引擎架构（当前主版本）
+├── v2.0/                          # 核心引擎架构（当前主版本）
 │   ├── src/
-│   │   ├── core/            # Orchestrator 调度核心
-│   │   ├── llm/             # LLM Provider（Kimi / Mock）
-│   │   ├── quant/           # QuantEngine 四象限量化
-│   │   ├── decision/        # DecisionEngine 复盘/决策
-│   │   ├── gateway/         # FeishuGateway 飞书网关
-│   │   ├── storage/         # SQLite + SelfModel 快照
-│   │   └── v01_compat/      # V0.1 数据兼容层
-│   ├── scripts/             # 入口脚本
-│   ├── config/              # 运行时配置
-│   └── README.md            # v2.0 详细说明
+│   │   ├── core/                  # Orchestrator 调度核心
+│   │   ├── llm/                   # LLM Provider（Kimi / Mock）
+│   │   ├── quant/                 # QuantEngine 四象限量化
+│   │   ├── decision/              # DecisionEngine 复盘/决策
+│   │   ├── gateway/               # FeishuGateway 飞书网关
+│   │   ├── storage/               # SQLite + SelfModel 快照
+│   │   └── v01_compat/            # V0.1 数据兼容层
+│   ├── scripts/                   # 入口脚本
+│   ├── config/                    # 运行时配置
+│   └── README.md                  # v2.0 详细说明
 │
-└── 参赛材料/                 # 4C 参赛文档
-    ├── 01-作品与答辩材料/
-    │   ├── 2026084355-作品报告.docx
-    │   ├── 2026084355-作品信息概要表.docx
-    │   └── 2026084355-AI工具使用说明.docx
-    └── 03-设计与开发文档/
-        ├── 2026084355-架构与参赛方案.md
-        ├── 2026084355-完整技术资产总册.docx
-        └── 2026084355-系统性投产指南.docx
+├── 参赛材料/                       # 4C 参赛完整材料
+│   └── 2026084355-参赛总文件夹/
+│       ├── 2026084355-01作品与答辩材料/
+│       │   ├── 2026084355-作品报告.docx
+│       │   ├── 2026084355-作品信息概要表.docx
+│       │   └── 2026084355-AI工具使用说明.docx
+│       ├── 2026084355-02素材与源码/
+│       │   ├── V0.1/              # 源码副本（同根目录 V0.1/）
+│       │   ├── v2.0/              # 源码副本（同根目录 v2.0/）
+│       │   └── README.md
+│       ├── 2026084355-03设计与开发文档/
+│       │   ├── 2026084355-架构与参赛方案.md
+│       │   ├── 2026084355-完整技术资产总册.docx
+│       │   └── 2026084355-系统性投产指南.docx
+│       └── 2026084355-04作品演示视频/
+│           └── README.md          # 视频存放说明
+│
+└── README.md                      # 本文件
 ```
 
 ---

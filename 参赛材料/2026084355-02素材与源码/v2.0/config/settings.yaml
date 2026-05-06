@@ -1,0 +1,108 @@
+# 负熵引擎 v2.0 配置文件
+# 注意：敏感信息（API Key 等）应通过环境变量注入
+
+app:
+  name: "NegentropyEngine"
+  version: "2.0.0"
+  env: "development"  # development / production
+
+# LLM 配置
+llm:
+  provider: "kimi"  # kimi / glm4 / deepseek / tongyi
+  kimi:
+    model: "moonshot-v1-128k"
+    api_base: "https://api.moonshot.cn/v1"
+    api_key: "${KIMI_API_KEY}"
+    temperature: 0.3
+    max_tokens: 4096
+    timeout: 30
+  glm4:
+    model: "glm-4"
+    api_base: "https://open.bigmodel.cn/api/paas/v4"
+    api_key: "${GLM4_API_KEY}"
+    temperature: 0.3
+    max_tokens: 4096
+    timeout: 30
+  deepseek:
+    model: "deepseek-chat"
+    api_base: "https://api.deepseek.com"
+    api_key: "${DEEPSEEK_API_KEY}"
+    temperature: 0.3
+    max_tokens: 4096
+    timeout: 30
+
+# 数据库配置
+database:
+  v20_path: "data/v2_0.db"
+  v01_path: "../V0.1/data/mvp.sqlite3"  # V0.1 数据兼容
+  echo: false  # SQLAlchemy echo
+
+# 飞书 Bot 配置
+feishu:
+  app_id: "${FEISHU_APP_ID}"
+  app_secret: "${FEISHU_APP_SECRET}"
+  encrypt_key: "${FEISHU_ENCRYPT_KEY}"  # 可选
+  verification_token: "${FEISHU_VERIFICATION_TOKEN}"
+  webhook_url: "${FEISHU_WEBHOOK_URL}"  # 可选：用于主动推送
+
+# 量化引擎配置
+quant:
+  # 四象限目标值（每日）
+  quadrant_targets:
+    body:
+      recovery_hours: 8.0
+      exercise_minutes: 30.0
+    mind:
+      deep_work_hours: 4.0
+      learning_minutes: 60.0
+    spirit:
+      social_minutes: 30.0
+      reflection_minutes: 10.0
+    vocation:
+      high_value_hours: 3.0
+      output_count: 1
+  # 熵计算参数
+  entropy:
+    decay_factor: 0.95  # 历史记录衰减因子
+    min_records_for_analysis: 7  # 最少记录数才生成分析
+
+# 决策引擎配置
+decision:
+  weekly_report:
+    day_of_week: 0  # 周日生成周报 (0=周日, 6=周六)
+    hour: 21
+  monthly_report:
+    day_of_month: 1
+    hour: 9
+  deviation_threshold: 0.3  # 偏离度阈值，超过则告警
+
+# FSYQ 协议（继承 V0.1）
+fsyq:
+  allowed_types:
+    - task
+    - action
+    - state
+    - idea
+    - review_note
+  allowed_channels:
+    - llm_engineering
+    - body_management
+    - teaching
+    - exam_prep
+    - mechanics_learning
+    - system_building
+    - daily_maintenance
+  allowed_value_tags:
+    primary:
+      - high_value
+      - low_value
+      - neutral
+    secondary:
+      - urgent
+      - optional
+
+# 日志
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/v2_0.log"

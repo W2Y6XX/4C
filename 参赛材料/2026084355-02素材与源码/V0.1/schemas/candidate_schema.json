@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Negative Entropy Engine Candidate Payload v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "v0.1"
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^bun_[0-9]{6}$",
+      "description": "Bundle ID must follow the fixed incrementing format bun_000001."
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "type",
+          "content",
+          "subject",
+          "value",
+          "unit",
+          "duration_min",
+          "event_time",
+          "primary_channel_tag",
+          "secondary_channel_tag",
+          "primary_value_tag",
+          "secondary_value_tag",
+          "status",
+          "related_to",
+          "needs_manual_review",
+          "parse_note"
+        ],
+        "properties": {
+          "candidate_id": {
+            "type": "string",
+            "pattern": "^temp_[0-9]+$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "task",
+              "action",
+              "state",
+              "idea",
+              "review_note"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "duration_min": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "event_time": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Recommended format: YYYY-MM-DD HH:MM. Validator is the main enforcement layer."
+          },
+          "primary_channel_tag": {
+            "type": "string",
+            "enum": [
+              "llm_engineering",
+              "body_management",
+              "teaching",
+              "exam_prep",
+              "mechanics_learning",
+              "system_building",
+              "daily_maintenance"
+            ],
+            "description": "Required. Default placeholder is system_building; if placeholder is used, parse_note must explain it."
+          },
+          "secondary_channel_tag": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "llm_engineering",
+              "body_management",
+              "teaching",
+              "exam_prep",
+              "mechanics_learning",
+              "system_building",
+              "daily_maintenance",
+              null
+            ]
+          },
+          "primary_value_tag": {
+            "type": "string",
+            "enum": [
+              "高价值",
+              "鸡肋",
+              "无用"
+            ],
+            "description": "Required. Default placeholder is 鸡肋; if placeholder is used, parse_note must explain it."
+          },
+          "secondary_value_tag": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "恢复性",
+              "不得不",
+              null
+            ]
+          },
+          "status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "active",
+              "done",
+              "cancelled",
+              "paused",
+              null
+            ]
+          },
+          "related_to": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^temp_[0-9]+$",
+            "description": "Must be null or a valid temp_n candidate_id that points to the same bundle's main candidate."
+          },
+          "needs_manual_review": {
+            "type": "boolean"
+          },
+          "parse_note": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Required on every record. If placeholders or temporary values are used, parse_note must explain why."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "task"
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "active",
+                    "done",
+                    "cancelled",
+                    "paused"
+                  ]
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "status": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "$comment": "NOTE: Standard JSON Schema cannot compare primary_channel_tag and secondary_channel_tag for inequality without non-standard extensions. The rule 'secondary must differ from primary, otherwise clear secondary' must be enforced in application logic."
+      },
+      "contains": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "action",
+              "task",
+              "idea",
+              "review_note"
+            ]
+          },
+          "related_to": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "type",
+          "related_to"
+        ]
+      },
+      "minContains": 1,
+      "maxContains": 1,
+      "description": "Exactly one main candidate is allowed per bundle. Main candidate must be a non-state record with related_to=null.",
+      "$comment": "NOTE: JSON Schema can enforce exactly one main non-state candidate via contains/minContains/maxContains, but cannot encode the priority rule action > task > idea > review_note > state without adding a new main marker field, which is forbidden by the frozen protocol. That priority must be enforced in validator/application logic."
+    }
+  },
+  "$comment": "NOTE: The schema intentionally does not add any extra fields beyond the frozen protocol. Placeholder semantics for primary_channel_tag=system_building and primary_value_tag=鸡肋 must be enforced by application logic through parse_note inspection."
+}

@@ -1,0 +1,50 @@
+type:
+  - task
+  - action
+  - state
+  - idea
+  - review_note
+
+task_status:
+  - active
+  - done
+  - cancelled
+  - paused
+
+source:
+  - openclaw
+
+flow_state:
+  - awaiting_input
+  - parsing
+  - awaiting_confirmation
+  - revising
+  - committed
+  - cancelled
+
+primary_channel_tag:
+  - llm_engineering
+  - body_management
+  - teaching
+  - exam_prep
+  - mechanics_learning
+  - system_building
+  - daily_maintenance
+
+secondary_channel_tag:
+  - llm_engineering
+  - body_management
+  - teaching
+  - exam_prep
+  - mechanics_learning
+  - system_building
+  - daily_maintenance
+
+primary_value_tag:
+  - 高价值
+  - 鸡肋
+  - 无用
+
+secondary_value_tag:
+  - 恢复性
+  - 不得不
